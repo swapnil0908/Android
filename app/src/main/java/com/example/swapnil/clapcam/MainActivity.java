@@ -1,6 +1,8 @@
 package com.example.swapnil.clapcam;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -8,14 +10,31 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
+import android.widget.ImageView;
 
 public class MainActivity extends AppCompatActivity {
 
+    Button cam_button;
+    ImageView iv;
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        //---------------------------------------------------
+        cam_button = (Button) findViewById(R.id.cam_button);
+        iv = (ImageView) findViewById(R.id.imageView);
+
+        cam_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v){
+                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                //if video select ACTION_IMAGE_VIDEO
+                startActivityForResult(intent,0);
+            }
+        });
         setSupportActionBar(toolbar);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);

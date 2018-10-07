@@ -27,11 +27,11 @@
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="400px"
-        android:layout_height="400px"
+        android:layout_width="384dp"
+        android:layout_height="394dp"
+        android:background="#ccc"
         app:srcCompat="@android:color/transparent"
-        tools:layout_editor_absoluteX="105dp"
-        tools:layout_editor_absoluteY="126dp"
-        android:background="#ccc"/>
+        tools:layout_editor_absoluteX="-2dp"
+        tools:layout_editor_absoluteY="-12dp" />
 
 </android.support.constraint.ConstraintLayout>
