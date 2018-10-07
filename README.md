@@ -1,4 +1,4 @@
-Project Proposal for Photo using Voice Recognition
+ClapCam(Photo using Voice Recognition)
 
 Sensors involved in the project:
 Camera and Microphone
