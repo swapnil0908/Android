@@ -1,6 +1,7 @@
 package com.example.swapnil.clapcam;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
@@ -17,7 +18,7 @@ public class MainActivity extends AppCompatActivity {
 
     Button cam_button;
     ImageView iv;
-    
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,7 +47,15 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+    //--------------------------------------------------------------------------
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data){
+        super.onActivityResult(requestCode, resultCode, data);
 
+        Bitmap bitmap = (Bitmap) data.getExtras().get("data");
+        iv.setImageBitmap(bitmap);
+    }
+    //------------------------------------------------------------------------
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
