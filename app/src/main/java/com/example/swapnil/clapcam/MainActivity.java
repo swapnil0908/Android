@@ -74,6 +74,21 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
+	//-----------------------------------------------------------------------
+	
+	
+	public class TakePictureActivity extends Activity {
+    private static String TAG = "TakePictureActivity";
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Log.d(TAG, "onCreate: ");
+        Intent intent = getIntent();
+        if (intent == null) {
+            finish();
+        } 
+//---------------------------------------------------------------------
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
