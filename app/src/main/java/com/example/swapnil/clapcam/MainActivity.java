@@ -95,6 +95,14 @@ public class MainActivity extends AppCompatActivity {
         }
         else if (!isVoiceInteraction()) {
             Log.e(TAG, "Not voice interaction");
+            if (intent != null) {
+                intent.setComponent(null);
+                intent.setPackage("com.google.android.GoogleCamera");
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+            }
+            finish();
+            return;
 
         }
 //---------------------------------------------------------------------
