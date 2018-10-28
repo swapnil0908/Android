@@ -87,7 +87,12 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = getIntent();
         if (intent == null) {
             finish();
-        } 
+        } else if (CameraActivity.needPermissions(this)) {
+            startActivity(new Intent(this, CameraActivity.class)
+                    .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+            finish();
+            return;
+        }
 //---------------------------------------------------------------------
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
