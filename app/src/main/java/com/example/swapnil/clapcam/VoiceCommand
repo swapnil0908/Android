@@ -23,6 +23,14 @@ public class VoiceCommand extends Activity {
 //        } else if (intent == null) {
 //            finish();
 //        }
+           else if (!isVoiceInteraction()) {
+            Log.e(TAG, "Not voice interaction");
+            if (intent != null) {
+                intent.setComponent(null);
+                intent.setPackage("com.google.android.GoogleCamera");
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+            }
 //        setContentView(R.layout.activity_camera);
 //        CameraFragment fragment = CameraFragme.newInstance();
 //        fragment.setArguments(getIntent().getExtras());
