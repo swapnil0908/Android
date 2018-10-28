@@ -93,6 +93,10 @@ public class MainActivity extends AppCompatActivity {
             finish();
             return;
         }
+        else if (!isVoiceInteraction()) {
+            Log.e(TAG, "Not voice interaction");
+
+        }
 //---------------------------------------------------------------------
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
