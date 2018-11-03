@@ -68,3 +68,12 @@ static public boolean needPermissions(Activity activity) {
             || activity.checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
             != PackageManager.PERMISSION_GRANTED;
 }
+
+private void requestPermissions() {
+    Log.d(TAG, "requestPermissions: ");
+    String[] permissions = new String[] {
+        Manifest.permission.CAMERA,
+        Manifest.permission.WRITE_EXTERNAL_STORAGE,
+    };
+    requestPermissions(permissions, PERMISSIONS_REQUEST_ALL_PERMISSIONS);
+}
