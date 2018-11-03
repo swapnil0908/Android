@@ -60,3 +60,11 @@ protected void onCreate(Bundle savedInstanceState) {
         finish();
     }
 }
+
+static public boolean needPermissions(Activity activity) {
+    Log.d(TAG, "needPermissions: ");
+    return activity.checkSelfPermission(Manifest.permission.CAMERA)
+            != PackageManager.PERMISSION_GRANTED
+            || activity.checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+            != PackageManager.PERMISSION_GRANTED;
+}
