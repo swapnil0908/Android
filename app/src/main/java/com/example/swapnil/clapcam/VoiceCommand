@@ -77,3 +77,30 @@ private void requestPermissions() {
     };
     requestPermissions(permissions, PERMISSIONS_REQUEST_ALL_PERMISSIONS);
 }
+
+
+
+public void onRequestPermissionsResult(int requestCode, String permissions[],
+                                           int[] grantResults) {
+    switch (requestCode) {
+        case PERMISSIONS_REQUEST_ALL_PERMISSIONS:
+            boolean hasAllPermissions = true;
+            for (int i = 0; i < grantResults.length; ++i) {
+                if (grantResults[i] != PackageManager.PERMISSION_GRANTED) {
+                    hasAllPermissions = false;
+                    Log.e(TAG, "Unable to get permission " + permissions[i]);
+                }
+            }
+            if (hasAllPermissions) {
+                finish();
+            } else {
+                Toast.makeText(this,
+                        "Unable to get all required permissions", Toast.LENGTH_LONG).show();
+                finish();
+                return;
+            }
+            break;
+        default:
+            Log.e(TAG, "Unexpected request code");
+    }
+}
