@@ -110,6 +110,8 @@ public class MainActivity extends AppCompatActivity {
             fragment.setArguments(getIntent().getExtras());
 
             getFragmentManager().beginTransaction()
+                    .replace(R.id.container, fragment)
+                    .commit();
         }
 //---------------------------------------------------------------------
     @Override
