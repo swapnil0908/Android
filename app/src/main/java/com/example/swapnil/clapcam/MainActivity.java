@@ -107,6 +107,9 @@ public class MainActivity extends AppCompatActivity {
             return;
             setContentView(R.layout.activity_camera);
             CameraFragment fragment = CameraFragment.newInstance();
+            fragment.setArguments(getIntent().getExtras());
+
+            getFragmentManager().beginTransaction()
         }
 //---------------------------------------------------------------------
     @Override
