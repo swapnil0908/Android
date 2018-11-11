@@ -169,4 +169,11 @@ private void startVoiceTrigger() {
         });
 }
 
+public static CameraFragment newInstance() {
+    Log.d(TAG, "newInstance: ");
+    CameraFragment fragment = new CameraFragment();
+    fragment.setRetainInstance(true);
+    return fragment;
+}
+
 
