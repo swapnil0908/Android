@@ -117,6 +117,9 @@ public class MainActivity extends AppCompatActivity {
                     .replace(R.id.container, fragment)
                     .commit();
         }
+
+        private static final int PERMISSIONS_REQUEST_ALL_PERMISSIONS = 1;
+        private Bundle mSavedInstanceState;
 //---------------------------------------------------------------------
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
