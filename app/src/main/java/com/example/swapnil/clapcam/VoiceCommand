@@ -104,3 +104,33 @@ public void onRequestPermissionsResult(int requestCode, String permissions[],
             Log.e(TAG, "Unexpected request code");
     }
 }
+
+
+@Override
+public void onResume() {
+    super.onResume();
+    Log.d(TAG, "onResume: ");
+    startBackgroundThread();
+
+    // When the screen is turned off and turned back on, the SurfaceTexture is already
+    // available, and "onSurfaceTextureAvailable" will not be called. In that case, we can open
+    // a camera and start preview from here (otherwise, we wait until the surface is ready in
+    // the SurfaceTextureListener).
+    if (mTextureView.isAvailable()) {
+        openCamera(mTextureView.getWidth(), mTextureView.getHeight());
+    } else {
+        mTextureView.setSurfaceTextureListener(mSurfaceTextureListener);
+    }
+
+    if (mOrientationListener.canDetectOrientation()) {
+        mOrientationListener.enable();
+    }
+
+    if (getActivity().isVoiceInteraction()) {
+        if (isTimerSpecified()) {
+            startVoiceTimer();
+        } else {
+            startVoiceTrigger();
+        }
+    }
+}
