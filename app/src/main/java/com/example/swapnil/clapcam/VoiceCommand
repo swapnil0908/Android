@@ -1,4 +1,11 @@
 package com.example.swapnil.clapcam;
+import android.app.VoiceInteractor;
+import android.app.VoiceInteractor.PickOptionRequest;
+import android.app.VoiceInteractor.PickOptionRequest.Option;
+import android.view.Gravity;
+import android.widget.TextView;
+import java.util.Timer;
+import java.util.TimerTask;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -134,3 +141,32 @@ public void onResume() {
         }
     }
 }
+
+private void startVoiceTrigger() {
+    Log.d(TAG, "startVoiceTrigger: ");
+    Option option = new Option("cheese");
+    option.addSynonym("ready");
+    option.addSynonym("go");
+    option.addSynonym("take it");
+    option.addSynonym("ok");
+
+    getActivity().getVoiceInteractor()
+        .submitRequest(new PickOptionRequest("Open Camera", new Option[]{option}, null) {
+            @Override
+            public void onPickOptionResult(boolean finished, Option[] selections, Bundle result) {
+                if (finished && selections.length == 1) {
+                    Message message = Message.obtain();
+                    message.obj = result;
+                    takePicture();
+                } else {
+                    getActivity().finish();
+                }
+            }
+            @Override
+            public void onCancel() {
+                getActivity().finish();
+            }
+        });
+}
+
+
