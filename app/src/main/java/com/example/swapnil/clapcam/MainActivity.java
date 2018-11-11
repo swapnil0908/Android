@@ -120,6 +120,10 @@ public class MainActivity extends AppCompatActivity {
 
         private static final int PERMISSIONS_REQUEST_ALL_PERMISSIONS = 1;
         private Bundle mSavedInstanceState;
+
+        protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Intent intent = getIntent();
 //---------------------------------------------------------------------
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
