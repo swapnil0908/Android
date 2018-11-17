@@ -176,4 +176,17 @@ public static CameraFragment newInstance() {
     return fragment;
 }
 
+@Override
+public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                         Bundle savedInstanceState) {
+    Log.d(TAG, "onCreateView: ");
+    View view = inflater.inflate(R.layout.fragment_camera2_basic, container, false);
+    if (getActivity().isVoiceInteraction()) {
+        View controls = view.findViewById(R.id.controls);
+        if (controls != null) {
+            controls.setVisibility(View.GONE);
+        }
+    }
+    return view;
+}
 
