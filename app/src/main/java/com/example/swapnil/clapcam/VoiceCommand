@@ -190,3 +190,41 @@ public View onCreateView(LayoutInflater inflater, ViewGroup container,
     return view;
 }
 
+private void showToast(String text) {
+    // We show a Toast by sending request message to mMessageHandler. This makes sure that the
+    // Toast is shown on the UI thread.
+    Activity activity = getActivity();
+    if (activity.isVoiceInteraction()) {
+        Message message = Message.obtain();
+        message.obj = text;
+        //mSharingHandler.sendMessage(message);
+
+        Uri contextUri = Uri.fromFile(mFile);
+        Log.e(TAG, "PHOTO URI: " + contextUri);
+        Log.e(TAG, "PHOTO LOCATION: " + mFile.getAbsolutePath());
+        Log.e(TAG, "showToast:" + Log.getStackTraceString(new Exception()));
+
+        Bundle extras = new Bundle();
+        extras.putParcelable("context_uri", contextUri);
+        activity.getVoiceInteractor().submitRequest(
+                new VoiceInteractor.CompleteVoiceRequest("Here it is", extras) {
+            @Override
+            public void onCompleteResult(Bundle result) {
+                super.onCompleteResult(result);
+                Log.d(TAG, "OnCompleteResult:" + Log.getStackTraceString(new Exception()));
+                Intent intent = new Intent();
+                intent.setAction(Intent.ACTION_VIEW);
+                intent.setDataAndType(Uri.parse("file://" + mFile.getAbsolutePath()), "image/*");
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                getActivity().finish();
+                startActivity(intent);
+            }
+        });
+   } else {
+        Message message = Message.obtain();
+        message.obj = text;
+        mMessageHandler.sendMessage(message);
+    }
+}
+
