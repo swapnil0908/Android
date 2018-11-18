@@ -228,3 +228,12 @@ private void showToast(String text) {
     }
 }
 
+private static final String EXTRA_TIMER_DURATION_SECONDS = "android.intent.extra.TIMER_DURATION_SECONDS";
+
+private TextView mTimerCountdownLabel = null;
+private Toast mTimerCountdownToast = null;
+
+private void startVoiceTimer() {
+    Log.d(TAG, "startVoiceTimer: ");
+    final int countdown = getArguments().getInt(EXTRA_TIMER_DURATION_SECONDS);
+
