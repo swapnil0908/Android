@@ -1,123 +1,76 @@
-package com.example.swapnil.clapcam;
+package clapcam.swapnil.example.com.clapcam;
 
+import android.Manifest;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
-import android.os.Bundle;
-import android.provider.MediaStore;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
+import android.net.Uri;
+import android.os.Environment;
+import android.speech.RecognizerIntent;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+import android.os.Bundle;
 import android.view.View;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
+import android.app.Activity;
+
+import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.io.IOException;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
+import android.provider.MediaStore;
+
 
 public class MainActivity extends AppCompatActivity {
 
-    Button cam_button;
-    ImageView iv;
+    private Button openMic;
+    private TextView showVoiceText;
 
-    private boolean checkCameraHardware(Context context) {
-        if (context.getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA)){
-            // this device has a camera
-            return true;
-        } else {
-            // no camera on this device
-            return false;
-        }
-    }
+    private final int REQ_CODE_SPEECH_OUTPUT = 143;
+    public static final int PERMISSION_REQUEST_CODE = 114;//request code for Camera and External Storage permission
+    private static final int CAMERA_REQUEST_CODE = 133;//request code for capture image
+
+    private Uri fileUri = null;//Uri to capture image
+    private String getImageUrl = "";
+    private ImageView imageView;
+    private ImageView camera;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        //---------------------------------------------------
-        cam_button = (Button) findViewById(R.id.cam_button);
-        iv = (ImageView) findViewById(R.id.imageView);
 
-        cam_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v){
-                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                //if video select ACTION_IMAGE_VIDEO
-                startActivityForResult(intent,0);
-            }
-        });
-        setSupportActionBar(toolbar);
+        openMic = (Button) findViewById(R.id.button);
+        showVoiceText = (TextView) findViewById(R.id.showVoiceOutput);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+        openMic.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+            public void onClick(View v) {
+                btnToOpenMic();
             }
         });
     }
-    //--------------------------------------------------------------------------
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data){
-        super.onActivityResult(requestCode, resultCode, data);
 
-        Bitmap bitmap = (Bitmap) data.getExtras().get("data");
-        iv.setImageBitmap(bitmap);
-    }
-    //------------------------------------------------------------------------
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
+    private void btnToOpenMic() {
+        Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
 
-	//-----------------------------------------------------------------------
-	
-	
-	public class TakePictureActivity extends Activity {
-    private static String TAG = "TakePictureActivity";
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault());
+        intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "Hiii Speak Now.....");
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        Log.d(TAG, "onCreate: ");
-        Intent intent = getIntent();
-        if (intent == null) {
-            finish();
-        } else if (CameraActivity.needPermissions(this)) {
-            startActivity(new Intent(this, CameraActivity.class)
-                    .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
-            finish();
-            return;
-        }
-        else if (!isVoiceInteraction()) {
-            Log.e(TAG, "Not voice interaction");
-            if (intent != null) {
-                intent.setComponent(null);
-                intent.setPackage("com.google.android.GoogleCamera");
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
-            }
-            finish();
-            return;
+        try {
+            startActivityForResult(intent, REQ_CODE_SPEECH_OUTPUT);
+        } catch (ActivityNotFoundException tim) {
 
         }
-//---------------------------------------------------------------------
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
     }
-}
