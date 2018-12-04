@@ -1,4 +1,11 @@
 package com.example.swapnil.clapcam;
+import android.app.VoiceInteractor;
+import android.app.VoiceInteractor.PickOptionRequest;
+import android.app.VoiceInteractor.PickOptionRequest.Option;
+import android.view.Gravity;
+import android.widget.TextView;
+import java.util.Timer;
+import java.util.TimerTask;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -104,3 +111,129 @@ public void onRequestPermissionsResult(int requestCode, String permissions[],
             Log.e(TAG, "Unexpected request code");
     }
 }
+
+
+@Override
+public void onResume() {
+    super.onResume();
+    Log.d(TAG, "onResume: ");
+    startBackgroundThread();
+
+    // When the screen is turned off and turned back on, the SurfaceTexture is already
+    // available, and "onSurfaceTextureAvailable" will not be called. In that case, we can open
+    // a camera and start preview from here (otherwise, we wait until the surface is ready in
+    // the SurfaceTextureListener).
+    if (mTextureView.isAvailable()) {
+        openCamera(mTextureView.getWidth(), mTextureView.getHeight());
+    } else {
+        mTextureView.setSurfaceTextureListener(mSurfaceTextureListener);
+    }
+
+    if (mOrientationListener.canDetectOrientation()) {
+        mOrientationListener.enable();
+    }
+
+    if (getActivity().isVoiceInteraction()) {
+        if (isTimerSpecified()) {
+            startVoiceTimer();
+        } else {
+            startVoiceTrigger();
+        }
+    }
+}
+
+private void startVoiceTrigger() {
+    Log.d(TAG, "startVoiceTrigger: ");
+    Option option = new Option("cheese");
+    option.addSynonym("ready");
+    option.addSynonym("go");
+    option.addSynonym("take it");
+    option.addSynonym("ok");
+
+    getActivity().getVoiceInteractor()
+        .submitRequest(new PickOptionRequest("Open Camera", new Option[]{option}, null) {
+            @Override
+            public void onPickOptionResult(boolean finished, Option[] selections, Bundle result) {
+                if (finished && selections.length == 1) {
+                    Message message = Message.obtain();
+                    message.obj = result;
+                    takePicture();
+                } else {
+                    getActivity().finish();
+                }
+            }
+            @Override
+            public void onCancel() {
+                getActivity().finish();
+            }
+        });
+}
+
+public static CameraFragment newInstance() {
+    Log.d(TAG, "newInstance: ");
+    CameraFragment fragment = new CameraFragment();
+    fragment.setRetainInstance(true);
+    return fragment;
+}
+
+@Override
+public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                         Bundle savedInstanceState) {
+    Log.d(TAG, "onCreateView: ");
+    View view = inflater.inflate(R.layout.fragment_camera2_basic, container, false);
+    if (getActivity().isVoiceInteraction()) {
+        View controls = view.findViewById(R.id.controls);
+        if (controls != null) {
+            controls.setVisibility(View.GONE);
+        }
+    }
+    return view;
+}
+
+private void showToast(String text) {
+    // We show a Toast by sending request message to mMessageHandler. This makes sure that the
+    // Toast is shown on the UI thread.
+    Activity activity = getActivity();
+    if (activity.isVoiceInteraction()) {
+        Message message = Message.obtain();
+        message.obj = text;
+        //mSharingHandler.sendMessage(message);
+
+        Uri contextUri = Uri.fromFile(mFile);
+        Log.e(TAG, "PHOTO URI: " + contextUri);
+        Log.e(TAG, "PHOTO LOCATION: " + mFile.getAbsolutePath());
+        Log.e(TAG, "showToast:" + Log.getStackTraceString(new Exception()));
+
+        Bundle extras = new Bundle();
+        extras.putParcelable("context_uri", contextUri);
+        activity.getVoiceInteractor().submitRequest(
+                new VoiceInteractor.CompleteVoiceRequest("Here it is", extras) {
+            @Override
+            public void onCompleteResult(Bundle result) {
+                super.onCompleteResult(result);
+                Log.d(TAG, "OnCompleteResult:" + Log.getStackTraceString(new Exception()));
+                Intent intent = new Intent();
+                intent.setAction(Intent.ACTION_VIEW);
+                intent.setDataAndType(Uri.parse("file://" + mFile.getAbsolutePath()), "image/*");
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                getActivity().finish();
+                startActivity(intent);
+            }
+        });
+   } else {
+        Message message = Message.obtain();
+        message.obj = text;
+        mMessageHandler.sendMessage(message);
+    }
+}
+
+private static final String EXTRA_TIMER_DURATION_SECONDS = "android.intent.extra.TIMER_DURATION_SECONDS";
+
+private TextView mTimerCountdownLabel = null;
+private Toast mTimerCountdownToast = null;
+
+private void startVoiceTimer() {
+    Log.d(TAG, "startVoiceTimer: ");
+    final int countdown = getArguments().getInt(EXTRA_TIMER_DURATION_SECONDS);
+
