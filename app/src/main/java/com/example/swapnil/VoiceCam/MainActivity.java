@@ -1,4 +1,4 @@
-package com.example.swapnil.clapcam;
+package com.example.swapnil.VoiceCam;
 
 import android.Manifest;
 import android.app.Dialog;
@@ -35,12 +35,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Size;
 import android.util.SparseIntArray;
+import android.view.Gravity;
 import android.view.Surface;
 import android.view.TextureView;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -66,6 +68,7 @@ import android.app.Dialog;
 public class MainActivity extends AppCompatActivity {
 
     private Button btnCapture;
+    private Button cambtn;
     private TextureView textureView;
     private static final int REQUEST_CODE = 1234;
     Button Start;
@@ -83,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private String cameraId;
+    //private String cameraId;
     private CameraDevice cameraDevice;
     private CameraCaptureSession cameraCaptureSessions;
     private CaptureRequest.Builder captureRequestBuilder;
@@ -95,6 +98,16 @@ public class MainActivity extends AppCompatActivity {
     private boolean mFlashSupported;
     private Handler mBackgroundHandler;
     private HandlerThread mBackgroundThread;
+
+
+    public static final String CAMERA_FRONT = "1";
+    public static final String CAMERA_BACK = "0";
+
+    private String cameraId = CAMERA_BACK;
+
+
+
+
 
     CameraDevice.StateCallback stateCallback = new CameraDevice.StateCallback() {
         @Override
@@ -125,6 +138,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
         textureView = (TextureView)findViewById(R.id.textureView);
         assert textureView != null;
         textureView.setSurfaceTextureListener(textureListener);
@@ -135,6 +149,15 @@ public class MainActivity extends AppCompatActivity {
                 takePicture();
             }
         });
+
+//        cambtn = (Button)findViewById(R.id.button_switch_camera);
+//        // Listener for Switch cameras button
+//        cambtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                //switchCameras();
+//            }
+//        });
 
         Start = (Button)findViewById(R.id.start_reg);
         Speech = (TextView)findViewById(R.id.speech);
@@ -174,22 +197,29 @@ public class MainActivity extends AppCompatActivity {
                 case REQUEST_CODE: {
                     if (resultCode == RESULT_OK && null != data) {
                         ArrayList<String> voiceInText = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
-
                         if (voiceInText.get(0).equals("cheese")) {
 
-//                            new CountDownTimer(20000, 1000) {
-//
-//                                public void onTick(long millisUntilFinished) {
-//                                    Start.setText("seconds remaining: " +new SimpleDateFormat("ss").format(new Date( millisUntilFinished)));
-//                                }
-//
-//                                public void onFinish() {
-//                                    Start.setText("Start Speech Recognition");
-//                                }
-//                            }.start();
+                            new CountDownTimer(10000, 1000) {
+
+                                public void onTick(long millisUntilFinished) {
+                                    //Start.setText("seconds remaining: " +new SimpleDateFormat("ss").format(new Date( millisUntilFinished)));
+                                    Toast.makeText(getApplicationContext(), "Photo in : " + millisUntilFinished/1000, Toast.LENGTH_SHORT).show();
+                                    //Toast.setGravity(Gravity.CENTER, 0, 0);
+
+                                }
+
+
+                                public void onFinish() {
+                                    //Start.setText("Start Speech Recognition");
+                                    Toast toast = Toast.makeText(MainActivity.this,"CLICKED", Toast.LENGTH_LONG);
+                                    toast.setGravity(Gravity.CENTER, 0, 0);
+                                    toast.show();
+                                    btnCapture.performClick();
+                                }
+                            }.start();
 
                             //Button btn  = (Button) findViewById(R.id.btnCapture);
-                            btnCapture.performClick();
+
 
 //                            takePicture();
                             //Speech.setText("Camera");
@@ -209,6 +239,29 @@ public class MainActivity extends AppCompatActivity {
         //super.onActivityResult(requestCode, resultCode, data);
     }
 
+//    public void switchCameras() {
+//        if (cameraId.equals(CAMERA_FRONT)) {
+//            cameraId = CAMERA_BACK;
+//            cameraDevice.close();
+//            reopenCamera();
+//            //switchCameraButton.setImageResource(R.drawable.ic_camera_front);
+//
+//        } else if (cameraId.equals(CAMERA_BACK)) {
+//            cameraId = CAMERA_FRONT;
+//            cameraDevice.close();
+//            reopenCamera();
+//            //switchCameraButton.setImageResource(R.drawable.ic_camera_back);
+//        }
+//    }
+//
+//    public void reopenCamera() {
+//        if (textureView.isAvailable()) {
+//            createCameraPreview();
+//        } else {
+//            textureView.setSurfaceTextureListener(textureListener);
+//        }
+//    }
+
     private void takePicture() {
         if (cameraDevice == null)
             return;
@@ -224,7 +277,6 @@ public class MainActivity extends AppCompatActivity {
             int width = 640;
             int height = 480;
             if (jpegSizes != null && jpegSizes.length > 0) {
-                Toast.makeText(getApplicationContext(), "2", Toast.LENGTH_LONG).show();
                 width = jpegSizes[0].getWidth();
                 height = jpegSizes[0].getHeight();
             }
@@ -283,6 +335,8 @@ public class MainActivity extends AppCompatActivity {
                 public void onCaptureCompleted(@NonNull CameraCaptureSession session, @NonNull CaptureRequest request, @NonNull TotalCaptureResult result) {
                     super.onCaptureCompleted(session, request, result);
                     Toast.makeText(MainActivity.this, "Saved" + file, Toast.LENGTH_SHORT).show();
+
+                    //Toast.makeText(MainActivity.this, "CLICKED!", Toast.LENGTH_SHORT).show();
                     createCameraPreview();
                 }
             };

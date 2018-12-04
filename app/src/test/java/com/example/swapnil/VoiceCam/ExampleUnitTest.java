@@ -1,4 +1,4 @@
-package com.example.swapnil.clapcam;
+package com.example.swapnil.VoiceCam;
 
 import org.junit.Test;
 

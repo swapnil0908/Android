@@ -1,4 +1,4 @@
-package com.example.swapnil.clapcam;
+package com.example.swapnil.VoiceCam;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
