@@ -106,9 +106,7 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public void onDisconnected(@NonNull CameraDevice cameraDevice) {
-            //Toast.makeText(getApplicationContext(), "quitting....", Toast.LENGTH_LONG).show();
             //cameraDevice.close();
-            //openCamera();
 
         }
 
@@ -192,16 +190,12 @@ public class MainActivity extends AppCompatActivity {
 
                             //Button btn  = (Button) findViewById(R.id.btnCapture);
                             btnCapture.performClick();
-<<<<<<< HEAD
 
 //                            takePicture();
                             //Speech.setText("Camera");
                             //Toast.makeText(getApplicationContext(), "Taking Picture", Toast.LENGTH_LONG).show();
 
 
-=======
-                            
->>>>>>> dfe5a6fef7421944965ba9daad8b5295fc936a01
                         } else {
                             Speech.setText(voiceInText.get(0));
                             Toast.makeText(getApplicationContext(), "Not the Keyword", Toast.LENGTH_LONG).show();
@@ -209,7 +203,6 @@ public class MainActivity extends AppCompatActivity {
                     }
                     break;
                 }
-<<<<<<< HEAD
             }
 
         }
@@ -217,17 +210,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void takePicture() {
-        Toast.makeText(getApplicationContext(), "Right here!!!!!", Toast.LENGTH_LONG).show();
         if (cameraDevice == null)
             return;
         CameraManager manager = (CameraManager) getSystemService(Context.CAMERA_SERVICE);
         try {
-            Toast.makeText(getApplicationContext(), "in try!", Toast.LENGTH_LONG).show();
 
             CameraCharacteristics characteristics = manager.getCameraCharacteristics(cameraDevice.getId());
             Size[] jpegSizes = null;
             if (characteristics != null) {
-                Toast.makeText(getApplicationContext(), "1", Toast.LENGTH_LONG).show();
                 jpegSizes = characteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP)
                         .getOutputSizes(ImageFormat.JPEG);
             }
@@ -301,7 +291,6 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onConfigured(@NonNull CameraCaptureSession cameraCaptureSession) {
                     try{
-                        Toast.makeText(getApplicationContext(), "capture session!", Toast.LENGTH_LONG).show();
                         cameraCaptureSession.capture(captureBuilder.build(),captureListener,mBackgroundHandler);
                     } catch (CameraAccessException e) {
                         e.printStackTrace();
@@ -379,19 +368,14 @@ public class MainActivity extends AppCompatActivity {
         } catch (CameraAccessException e) {
             e.printStackTrace();
         }
+        }
 
-=======
-            }
->>>>>>> dfe5a6fef7421944965ba9daad8b5295fc936a01
-
-    }
 
     TextureView.SurfaceTextureListener textureListener = new TextureView.SurfaceTextureListener() {
         @Override
         public void onSurfaceTextureAvailable(SurfaceTexture surfaceTexture, int i, int i1) {
             openCamera();
         }
-<<<<<<< HEAD
 
         @Override
         public void onSurfaceTextureSizeChanged(SurfaceTexture surfaceTexture, int i, int i1) {
@@ -423,7 +407,6 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onResume() {
-        Toast.makeText(getApplicationContext(), "on Resume!!!!!", Toast.LENGTH_LONG).show();
         super.onResume();
         startBackgroundThread();
         if(textureView.isAvailable()) {
@@ -436,7 +419,6 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onPause() {
-        Toast.makeText(getApplicationContext(), "on Pause!", Toast.LENGTH_LONG).show();
         super.onPause();
         //stopBackgroundThread();
 
@@ -461,8 +443,4 @@ public class MainActivity extends AppCompatActivity {
         mBackgroundHandler = new Handler(mBackgroundThread.getLooper());
     }
 }
-=======
-        //super.onActivityResult(requestCode, resultCode, data);
-    }
 
->>>>>>> dfe5a6fef7421944965ba9daad8b5295fc936a01
