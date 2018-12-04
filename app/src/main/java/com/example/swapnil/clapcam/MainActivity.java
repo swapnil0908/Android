@@ -192,12 +192,16 @@ public class MainActivity extends AppCompatActivity {
 
                             //Button btn  = (Button) findViewById(R.id.btnCapture);
                             btnCapture.performClick();
+<<<<<<< HEAD
 
 //                            takePicture();
                             //Speech.setText("Camera");
                             //Toast.makeText(getApplicationContext(), "Taking Picture", Toast.LENGTH_LONG).show();
 
 
+=======
+                            
+>>>>>>> dfe5a6fef7421944965ba9daad8b5295fc936a01
                         } else {
                             Speech.setText(voiceInText.get(0));
                             Toast.makeText(getApplicationContext(), "Not the Keyword", Toast.LENGTH_LONG).show();
@@ -205,6 +209,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                     break;
                 }
+<<<<<<< HEAD
             }
 
         }
@@ -375,6 +380,9 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
+=======
+            }
+>>>>>>> dfe5a6fef7421944965ba9daad8b5295fc936a01
 
     }
 
@@ -383,6 +391,7 @@ public class MainActivity extends AppCompatActivity {
         public void onSurfaceTextureAvailable(SurfaceTexture surfaceTexture, int i, int i1) {
             openCamera();
         }
+<<<<<<< HEAD
 
         @Override
         public void onSurfaceTextureSizeChanged(SurfaceTexture surfaceTexture, int i, int i1) {
@@ -452,3 +461,8 @@ public class MainActivity extends AppCompatActivity {
         mBackgroundHandler = new Handler(mBackgroundThread.getLooper());
     }
 }
+=======
+        //super.onActivityResult(requestCode, resultCode, data);
+    }
+
+>>>>>>> dfe5a6fef7421944965ba9daad8b5295fc936a01
