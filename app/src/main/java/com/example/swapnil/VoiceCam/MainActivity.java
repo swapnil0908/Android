@@ -294,11 +294,11 @@ public class MainActivity extends AppCompatActivity {
             String cameraId = manager.getCameraIdList()[0];
             if (cameraId.equals("0")) {
                 cameraId = "1";
-                Toast.makeText(MainActivity.this, "switch mara!" + cameraId, Toast.LENGTH_SHORT).show();
+                //Toast.makeText(MainActivity.this, "switch mara!" + cameraId, Toast.LENGTH_SHORT).show();
             }
             else {
                 cameraId = "0";
-                Toast.makeText(MainActivity.this, "switch mara ye le!" + cameraId, Toast.LENGTH_SHORT).show();
+                //Toast.makeText(MainActivity.this, "switch mara ye le!" + cameraId, Toast.LENGTH_SHORT).show();
             }
             try {
                 if(ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED)
