@@ -229,7 +229,7 @@ public class MainActivity extends AppCompatActivity {
                     if(matches.get(0).equals( "cheese")) {
                         //Toast.makeText(MainActivity.this, "IDHAR!", Toast.LENGTH_SHORT).show();
                         editText.setText(matches.get(0));
-                        new CountDownTimer(10000, 1000) {
+                        new CountDownTimer(5000, 1000) {
 //
                                 public void onTick(long millisUntilFinished) {
                                     //Start.setText("seconds remaining: " +new SimpleDateFormat("ss").format(new Date( millisUntilFinished)));
@@ -294,13 +294,19 @@ public class MainActivity extends AppCompatActivity {
             String cameraId = manager.getCameraIdList()[0];
             if (cameraId.equals("0")) {
                 cameraId = "1";
+                //createCameraPreview();
                 //Toast.makeText(MainActivity.this, "switch mara!" + cameraId, Toast.LENGTH_SHORT).show();
             }
             else {
                 cameraId = "0";
+                //createCameraPreview();
                 //Toast.makeText(MainActivity.this, "switch mara ye le!" + cameraId, Toast.LENGTH_SHORT).show();
             }
             try {
+                CameraCharacteristics characteristics = manager.getCameraCharacteristics(cameraId);
+                StreamConfigurationMap map = characteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP);
+                assert map != null;
+                imageDimension = map.getOutputSizes(SurfaceTexture.class)[0];
                 if(ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED)
                 {
                     ActivityCompat.requestPermissions(this, new String[]{
@@ -390,29 +396,6 @@ public class MainActivity extends AppCompatActivity {
 //
 //        }
 //        //super.onActivityResult(requestCode, resultCode, data);
-//    }
-
-//    public void switchCameras() {
-//        if (cameraId.equals(CAMERA_FRONT)) {
-//            cameraId = CAMERA_BACK;
-//            cameraDevice.close();
-//            reopenCamera();
-//            //switchCameraButton.setImageResource(R.drawable.ic_camera_front);
-//
-//        } else if (cameraId.equals(CAMERA_BACK)) {
-//            cameraId = CAMERA_FRONT;
-//            cameraDevice.close();
-//            reopenCamera();
-//            //switchCameraButton.setImageResource(R.drawable.ic_camera_back);
-//        }
-//    }
-//
-//    public void reopenCamera() {
-//        if (textureView.isAvailable()) {
-//            createCameraPreview();
-//        } else {
-//            textureView.setSurfaceTextureListener(textureListener);
-//        }
 //    }
 
     private void takePicture() {
