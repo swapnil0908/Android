@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+    <!--Capture Button-->
     <TextureView
         android:id="@+id/textureView"
         android:layout_width="match_parent"
@@ -19,12 +20,33 @@
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:text="CAPTURE" />
+    <!--*********************************************************-->
+
+    <!--Speech Recognition-->
+
+    <!--SPEECH RECOGNITION WITHOUT API-->
+
+    <EditText
+        android:id="@+id/editText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/camswitch"
+        android:layout_marginStart="-228dp"
+        android:layout_toEndOf="@+id/camswitch"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:hint="You will see input here.." />
 
     <Button
-        android:id="@+id/start_reg"
+        android:id="@+id/btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
         android:layout_gravity="center"
+        android:layout_marginStart="76dp"
+        android:layout_marginTop="403dp"
+        android:layout_marginBottom="43dp"
         android:text="Start Speech Recognition" />
 
     <TextView
@@ -34,19 +56,28 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center" />
 
-    <TextureView
-        android:id="@+id/button_switch_camera"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@+id/cambtn" />
-
+    <!--*********************************************************-->
+    <!--Switch Camera-->
     <Button
-        android:id="@+id/cambtn"
-        android:layout_alignParentBottom="true"
-        android:layout_width="match_parent"
+        android:id="@+id/camswitch"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:text="SWITCH" />
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_gravity="center"
+        android:layout_marginTop="11dp"
+        android:layout_marginEnd="237dp"
+        android:text="switch camera" />
+
+    <TextView
+        android:id="@+id/switch_camera"
+        android:textSize="25sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center" />
+
+    <!--*********************************************************-->
+
 
 
 
