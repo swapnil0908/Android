@@ -167,23 +167,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-//        Start = (Button)findViewById(R.id.start_reg);
-//        Speech = (TextView)findViewById(R.id.speech);
-
-//        Start.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if(isConnected()){
-//                    Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
-//                    intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
-//                            RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
-//                    startActivityForResult(intent, REQUEST_CODE);
-//                }
-//                else{
-//                    Toast.makeText(getApplicationContext(), "Plese Connect to Internet", Toast.LENGTH_LONG).show();
-//                }}
-//
-//        });
         checkPermission();
         editText = findViewById(R.id.editText);
         mSpeechRecognizer = SpeechRecognizer.createSpeechRecognizer(this);
@@ -334,69 +317,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
-//    public  boolean isConnected()
-////    {
-////        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-////        NetworkInfo net = cm.getActiveNetworkInfo();
-////        if (net!=null && net.isAvailable() && net.isConnected()) {
-////            return true;
-////        } else {
-////            return false;
-////        }
-////    }
 
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        if (requestCode == REQUEST_CODE && resultCode == RESULT_OK) {
-//            super.onActivityResult(requestCode, resultCode, data);
-//            switch (requestCode) {
-//                case REQUEST_CODE: {
-//                    if (resultCode == RESULT_OK && null != data) {
-//                        ArrayList<String> voiceInText = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
-//                        if (voiceInText.get(0).equals("cheese")) {
-//
-//                            new CountDownTimer(10000, 1000) {
-//
-//                                public void onTick(long millisUntilFinished) {
-//                                    //Start.setText("seconds remaining: " +new SimpleDateFormat("ss").format(new Date( millisUntilFinished)));
-//                                    //Toast.makeText(getApplicationContext(), "Photo in : " + millisUntilFinished/1000, Toast.LENGTH_SHORT).show();
-//                                    Toast toast1 = Toast.makeText(MainActivity.this, "Photo in : " + millisUntilFinished/1000, Toast.LENGTH_SHORT);
-//                                    toast1.setGravity(Gravity.CENTER, 0, 0);
-//                                    toast1.show();
-//                                    //Toast.setGravity(Gravity.CENTER, 0, 0);
-//
-//                                }
-//
-//
-//                                public void onFinish() {
-//                                    //Start.setText("Start Speech Recognition");
-//                                    Toast toast = Toast.makeText(MainActivity.this,"CLICKED", Toast.LENGTH_LONG);
-//                                    toast.setGravity(Gravity.CENTER, 0, 0);
-//                                    toast.show();
-//                                    btnCapture.performClick();
-//                                }
-//                            }.start();
-//
-//                            //Button btn  = (Button) findViewById(R.id.btnCapture);
-//
-//
-////                            takePicture();
-//                            //Speech.setText("Camera");
-//                            //Toast.makeText(getApplicationContext(), "Taking Picture", Toast.LENGTH_LONG).show();
-//
-//
-//                        } else {
-//                            Speech.setText(voiceInText.get(0));
-//                            Toast.makeText(getApplicationContext(), "Not the Keyword", Toast.LENGTH_LONG).show();
-//                        }
-//                    }
-//                    break;
-//                }
-//            }
-//
-//        }
-//        //super.onActivityResult(requestCode, resultCode, data);
-//    }
 
     private void takePicture() {
         if (cameraDevice == null)
